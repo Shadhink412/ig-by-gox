@@ -32,7 +32,7 @@
 Run this single command in **Termux** to update, install all requirements, clone the repo, and start immediately:
 
 ```bash
-pkg update -y && pkg upgrade -y && pkg install python git -y && termux-setup-storage && git clone https://github.com/Shadhink412/ig-by-gox && cd ig-by-gox && pip install -r requirements.txt && python hitter.py
+pkg update -y && pkg upgrade -y && pkg install python git python-cryptography python-pynacl -y && termux-setup-storage && git clone https://github.com/Shadhink412/ig-by-gox && cd ig-by-gox && pip install -r requirements.txt && python hitter.py
 ```
 
 ---
@@ -53,9 +53,11 @@ pkg update -y && pkg upgrade -y
 termux-setup-storage
 ```
 
-### 3️⃣ Install Python & Git
+### 3️⃣ Install Python, Git & Pre-compiled Crypto Libraries
+> [!NOTE]
+> In Termux, `cryptography` and `pynacl` must be installed via `pkg` as pre-compiled packages (`python-cryptography` & `python-pynacl`) to avoid C/Rust compilation errors.
 ```bash
-pkg install python git -y
+pkg install python git python-cryptography python-pynacl -y
 ```
 
 ### 4️⃣ Clone the Repository
