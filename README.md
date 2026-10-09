@@ -5,7 +5,8 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Termux%20%7C%20Android-green?style=for-the-badge&logo=android" alt="Platform" />
-  <img src="https://img.shields.io/badge/Language-Python%203.8+-blue?style=for-the-badge&logo=python" alt="Python" />
+  <img src="https://img.shields.io/badge/Architecture-ARM64%20%7C%20ARMv7%20%7C%20x86_64-blue?style=for-the-badge" alt="Architecture" />
+  <img src="https://img.shields.io/badge/Python-3.8+-yellow?style=for-the-badge&logo=python" alt="Python" />
   <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge" alt="Status" />
   <img src="https://img.shields.io/badge/License-MIT-orange?style=for-the-badge" alt="License" />
 </p>
@@ -14,12 +15,12 @@
 
 ## 🚀 Overview
 
-**IG-BY-GOX** is an automated, ultra-fast engine designed specifically for Android mobile terminals (**Termux**). It features multi-provider temporary inboxes, automatic 2FA secret generation, direct-login session cookie extraction, and saves accounts directly into your phone's main storage.
+**IG-BY-GOX** is an automated, ultra-fast engine designed specifically for Android mobile terminals (**Termux**). It features multi-provider temporary inboxes, automatic 2FA secret generation, direct-login session cookie extraction, and saves accounts directly into your phone's main internal storage.
 
 ### 🌟 Key Highlights
 
 - ⚡ **Ultra-Fast Engine**: High efficiency with Human or Turbo execution modes.
-- 📬 **6 Multi-Mail Providers**: Automatic failover inbox rotation.
+- 📬 **6 Multi-Mail Providers**: Automatic failover inbox rotation (NukeMail, Driftz, Smails, Neighbours, GrabMail, DevMail).
 - 🔐 **2FA Pre-Configured**: Instant TOTP secret keys and verified setup.
 - 🍪 **Direct Login Cookies**: Full cookie sets exported for instant browser login.
 - 📱 **Mobile Screen Optimized**: Compact 38-column terminal UI tailored for portrait Termux.
@@ -27,57 +28,109 @@
 
 ---
 
-## ⚡ Quick Start (One-Line Command)
+## 🛠️ Step-by-Step Installation Guide (Termux)
 
-Run this single command in **Termux** to update, install all requirements, clone the repo, and start immediately:
+> [!IMPORTANT]
+> **Follow each step one by one in order.** Do not skip any steps.
+> In Termux on Android, libraries like `cryptography` and `pynacl` require native system packages rather than default `pip` compilations. Following these verified steps ensures smooth installation on **all Android versions and CPU architectures** (ARM64, ARMv7, x86_64).
 
+---
+
+### 1️⃣ Update Package Lists
+Updates the Termux repository package index:
 ```bash
-pkg update -y && pkg upgrade -y && pkg install python git python-cryptography python-pynacl -y && termux-setup-storage && git clone https://github.com/Shadhink412/ig-by-gox && cd ig-by-gox && pip install -r requirements.txt && python hitter.py
+pkg update -y
 ```
 
 ---
 
-## 🛠️ Step-by-Step Installation Guide
-
-Follow these steps one by one in your **Termux** terminal:
-
-### 1️⃣ Update & Upgrade Termux Packages
+### 2️⃣ Upgrade Installed Packages
+Upgrades all existing packages to their latest versions:
 ```bash
-pkg update -y && pkg upgrade -y
+pkg upgrade -y
 ```
+*(If prompted with `[default=N]`, press **Enter** to continue).*
 
-### 2️⃣ Grant Storage Access
-> [!IMPORTANT]
-> When you run this command, tap **Allow** on your phone screen to give Termux access to your phone's internal storage.
+---
+
+### 3️⃣ Grant Storage Permission
+Allows Termux to save created accounts to your phone's internal storage (`/0/Instagram-Hitter`):
 ```bash
 termux-setup-storage
 ```
+> [!IMPORTANT]
+> A popup will appear on your phone screen: Tap **Allow** (বা পারমিশন দিন).
 
-### 3️⃣ Install Python, Git & Pre-compiled Crypto Libraries
-> [!NOTE]
-> In Termux, `cryptography` and `pynacl` must be installed via `pkg` as pre-compiled packages (`python-cryptography` & `python-pynacl`) to avoid C/Rust compilation errors.
+---
+
+### 4️⃣ Install Compilers, Python, Git & Native Libraries
+Installs Python, Git, C/C++ compilers, and essential crypto dependencies (`libsodium`, `openssl`, `libffi`):
 ```bash
-pkg install python git python-cryptography python-pynacl -y
+pkg install clang make pkg-config python git libffi openssl libsodium -y
 ```
 
-### 4️⃣ Clone the Repository
+---
+
+### 5️⃣ Install Pre-Compiled Cryptography
+Installs Termux's official pre-built `cryptography` package (avoids failing Rust compiler builds):
+```bash
+pkg install python-cryptography -y
+```
+
+---
+
+### 6️⃣ Install PyNaCl with System Libsodium
+Compiles and links PyNaCl natively with Termux's system `libsodium` in seconds:
+```bash
+SODIUM_INSTALL=system pip install --no-cache-dir pynacl
+```
+
+---
+
+### 7️⃣ Clone the Repository
+Downloads the latest project code from GitHub:
 ```bash
 git clone https://github.com/Shadhink412/ig-by-gox
 ```
 
-### 5️⃣ Go to Directory
+---
+
+### 8️⃣ Enter Project Directory
 ```bash
 cd ig-by-gox
 ```
 
-### 6️⃣ Install Dependencies
+---
+
+### 9️⃣ Install Python Dependencies
+Installs remaining pure-Python packages (`requests`, `faker`, `pyotp`):
 ```bash
 pip install -r requirements.txt
 ```
 
-### 7️⃣ Run the Engine
+---
+
+### 🔟 Launch the Engine
 ```bash
 python hitter.py
+```
+
+---
+
+## ⚡ Quick Re-run & Updating
+
+Once setup is complete, you only need to use these short commands:
+
+### 🔄 How to Run Later:
+Whenever you open Termux again:
+```bash
+cd ig-by-gox && python hitter.py
+```
+
+### 📥 How to Update to the Latest Version:
+To pull updates and bug fixes:
+```bash
+cd ig-by-gox && git pull
 ```
 
 ---
@@ -102,17 +155,43 @@ All created accounts are automatically saved to your phone's main internal memor
 
 ---
 
-## ⚠️ Notes & Tips
+## 🔧 Troubleshooting & Common Issues
 
-1. **Storage Access**: Make sure Termux has storage permission so that the `/0/Instagram-Hitter` folder can be created without permission errors.
-2. **Re-running**: To run the bot again in the future, simply enter:
-   ```bash
-   cd ig-by-gox && python hitter.py
-   ```
-3. **Updating**: To pull the latest updates anytime:
-   ```bash
-   cd ig-by-gox && git pull
-   ```
+<details>
+<summary><b>1. Package 'python-cryptography' not found?</b></summary>
+
+If your Termux repository doesn't list `python-cryptography`, install the Termux User Repository (TUR) first:
+```bash
+pkg install tur-repo -y && pkg install python-cryptography -y
+```
+</details>
+
+<details>
+<summary><b>2. Repository connection or download fails during `pkg update`?</b></summary>
+
+Switch to an active global mirror:
+```bash
+termux-change-repo
+```
+Select **Main repository** and choose **Grimler** or **Albatross**, then re-run `pkg update -y`.
+</details>
+
+<details>
+<summary><b>3. Permission Denied when saving accounts?</b></summary>
+
+Ensure Termux has full storage permissions:
+1. Re-run: `termux-setup-storage`
+2. Or go to your phone: **Settings > Apps > Termux > Permissions > Storage / Files > Allow**.
+</details>
+
+<details>
+<summary><b>4. Missing Dependency notice when running `python hitter.py`?</b></summary>
+
+If `hitter.py` outputs a missing dependency notice, simply run the specific fix command displayed on your screen, for example:
+- For `pynacl`: `SODIUM_INSTALL=system pip install --no-cache-dir pynacl`
+- For `cryptography`: `pkg install python-cryptography -y`
+- For other packages: `pip install -r requirements.txt`
+</details>
 
 ---
 
